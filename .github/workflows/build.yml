@@ -33,3 +33,12 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build -x test -Pversion=$TP_SDK_VERSION $SDK_BUILD_ARGS
+    - name: Upload FULL jar to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/jarFile.jar
+        asset_name: "testproject-java-sdk-${SDK_VERSION}-FULL.jar"
+        tag: ${{ github.ref }}
+        overwrite: true
+        body: "This is my release text"
