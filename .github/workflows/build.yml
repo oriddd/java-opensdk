@@ -35,7 +35,7 @@ jobs:
       run: ./gradlew build -x test -Pversion=$TP_SDK_VERSION $SDK_BUILD_ARGS
     - name: Run TestProject Agent
       env:
-        TP_API_KEY: ${{ secrets.TP_API_KEY }}
+        TP_API_KEY: "RolV94Hs7wH11cpMHO0bREz2T_07rcT5QRRnxI9ak7w1"
       run: |
         envsubst < .github/ci/docker-compose.yml > docker-compose.yml
         docker-compose -f docker-compose.yml up -d
@@ -58,28 +58,13 @@ jobs:
         done
     - name: Run tests
       env:
-        TP_DEV_TOKEN: ${{ secrets.TP_DEV_TOKEN }}
+        TP_DEV_TOKEN: "XJP7-R84sjfF0LaZjDfezQjqqxIj2ErUljqlyzKXUlo1"
         TP_AGENT_URL: http://localhost:8585
-        TP_CLOUD_URL: ${{ secrets.TP_CLOUD_URL }}
       run: |
         trap 'kill $(jobs -p)' EXIT
         export TP_DEBUG_SDK_VERSION=$TP_SDK_VERSION
         docker-compose -f docker-compose.yml logs -f --tail=0 >> build/reports/agent/log.txt&
         ./gradlew test --tests io.testproject.sdk.tests.ci.* -Pversion=$TP_SDK_VERSION $SDK_BUILD_ARGS
-    - name: Upload to Maven
-      if: startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/master')
-      env:
-        ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_PRIVATE_KEY }}
-        ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_PASSPHRASE }}
-        ORG_GRADLE_PROJECT_ossrhUsername: ${{ secrets.OSSRH_USERNAME }}
-        ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}        
-      run: ./gradlew publish -Pversion=$TP_SDK_VERSION $SDK_BUILD_ARGS
-    - name: Publish to Maven
-      if: startsWith(github.ref, 'refs/tags/v')
-      env:
-        ORG_GRADLE_PROJECT_ossrhUsername: ${{ secrets.OSSRH_USERNAME }}
-        ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}        
-      run: ./gradlew closeAndReleaseRepository
     - name: Archive reports
       if: ${{ failure() }}
       uses: actions/upload-artifact@v1
