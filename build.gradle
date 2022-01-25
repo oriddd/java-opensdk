@@ -144,6 +144,25 @@ jar {
     }
 }
 
+task fullJar (type: Jar) {
+    mustRunAfter(jar, javadocJar, sourcesJar)
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+    manifest {
+        attributes 'Compile-Title': project.name,
+                'Compile-Version': project.version
+    }
+
+    archiveFileName = project.name + "-" + project.version + "-FULL.jar"
+    from configurations.compileClasspath.collect {
+        it.isDirectory() ? it : zipTree(it)
+    }
+    with jar
+}
+
+// Add the fullJar task to the build lifecycle.
+processTestResources.dependsOn(fullJar)
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
