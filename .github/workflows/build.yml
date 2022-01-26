@@ -33,23 +33,23 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build -x test -Pversion=$TP_SDK_VERSION $SDK_BUILD_ARGS
-    - name: Print build file names
+    - name: Define FULL jar name
       run: |
-        ls build/libs
-        export FULL_JAR_PATH="$(find build/libs -name '*-FULL.jar')"
-        echo $FULL_JAR_PATH
         if [ -z "$SDK_BUILD_ARGS" ]
         then
           echo "TP_SDK_VARIANT=SNAPSHOT" >> $GITHUB_ENV
         else
           echo "TP_SDK_VARIANT=RELEASE" >> $GITHUB_ENV
         fi
+        echo "TP_SDK_JAR_NAME=testproject-java-sdk" >> $GITHUB_ENV
+        echo "TP_SDK_FULL_JAR_EXT=FULL.jar" >> $GITHUB_ENV
+        
     - name: Upload FULL jar to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: build/libs/testproject-java-sdk-${{ env.TP_SDK_VERSION }}-${{ env.TP_SDK_VARIANT}}-FULL.jar
-        asset_name: target/release/jarFile.jar
+        file: build/libs/${{ env.TP_SDK_JAR_NAME }}-${{ env.TP_SDK_VERSION }}-${{ env.TP_SDK_VARIANT}}-${{ env.TP_SDK_FULL_JAR_EXT }}
+        asset_name: ${{ env.TP_SDK_JAR_NAME }}-${{ env.TP_SDK_FULL_JAR_EXT }}
         tag: ${{ github.ref }}
         overwrite: true
         body: "This is my release text"
