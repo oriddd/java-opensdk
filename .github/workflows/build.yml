@@ -34,7 +34,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build -x test -Pversion=$TP_SDK_VERSION $SDK_BUILD_ARGS
     - name: Print build file names
-      run: ls build/libs
+      run: ls build/libs | grep *\-FULL.jar
     - name: Upload FULL jar to release
       uses: svenstaro/upload-release-action@v2
       with:
