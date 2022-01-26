@@ -38,7 +38,7 @@ jobs:
         ls build/libs
         export FULL_JAR_PATH="$(find build/libs -name '*-FULL.jar')"
         echo $FULL_JAR_PATH
-        echo $"SDK_BUILD_ARGS"
+        echo $SDK_BUILD_ARGS
     - name: Upload FULL jar to release
       uses: svenstaro/upload-release-action@v2
       with:
