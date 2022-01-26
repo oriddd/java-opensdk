@@ -37,7 +37,7 @@ jobs:
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: "testproject-java-sdk-${{SDK_VERSION}}-FULL.jar"
+        file: testproject-java-sdk-${SDK_VERSION}-FULL.jar
         asset_name: target/release/jarFile.jar
         tag: ${{ github.ref }}
         overwrite: true
