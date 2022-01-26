@@ -54,3 +54,13 @@ jobs:
         asset_name: ${{ env.TP_SDK_JAR_NAME }}${{ env.TP_SDK_JAR_EXT }}
         tag: ${{ github.ref }}
         overwrite: true
+    - name: Create hash artifact
+      uses: MCJack123/ghaction-generate-release-hashes@v1
+      with:
+        hash-type: md5
+        file-name: hashes.txt
+    - name: Upload hash artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Asset Hashes
+        path: hashes.txt
