@@ -40,15 +40,15 @@ jobs:
         echo $FULL_JAR_PATH
         if [ -z "$SDK_BUILD_ARGS" ]
         then
-              echo "SNAPSHOT"
+          echo "TP_SDK_VARIANT=SNAPSHOT" >> $GITHUB_ENV
         else
-              echo "RELEASE"
+          echo "TP_SDK_VARIANT=RELEASE" >> $GITHUB_ENV
         fi
     - name: Upload FULL jar to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: build/libs/testproject-java-sdk-${{ env.TP_SDK_VERSION }}-${{ env.SNAP_REL}}-FULL.jar
+        file: build/libs/testproject-java-sdk-${{ env.TP_SDK_VERSION }}-${{ env.TP_SDK_VARIANT}}-FULL.jar
         asset_name: target/release/jarFile.jar
         tag: ${{ github.ref }}
         overwrite: true
