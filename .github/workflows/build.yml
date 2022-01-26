@@ -37,7 +37,7 @@ jobs:
       run: |
         cd build/libs
         ls
-        foo="&(find . | grep *\FULL.jar)"
+        foo="$(find . | grep *\FULL.jar)"
         echo "$foo"
     - name: Upload FULL jar to release
       uses: svenstaro/upload-release-action@v2
