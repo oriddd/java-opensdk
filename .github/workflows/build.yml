@@ -43,7 +43,6 @@ jobs:
         fi
         echo "TP_SDK_JAR_NAME=testproject-java-sdk" >> $GITHUB_ENV
         echo "TP_SDK_FULL_JAR_EXT=FULL.jar" >> $GITHUB_ENV
-        
     - name: Upload FULL jar to release
       uses: svenstaro/upload-release-action@v2
       with:
