@@ -42,11 +42,11 @@ jobs:
         else
           export TP_SDK_VARIANT="RELEASE"
         fi
-        echo $TP_SDK_VARIANT >> $GITHUB_ENV
+        echo "$TP_SDK_VARIANT" >> $GITHUB_ENV
         export TP_SDK_JAR_NAME="testproject-java-sdk"
-        echo $TP_SDK_JAR_NAME >> $GITHUB_ENV  
+        echo "$TP_SDK_JAR_NAME" >> $GITHUB_ENV  
         export TP_SDK_FULL_JAR_EXT="FULL.jar"
-        echo $TP_SDK_FULL_JAR_EXT >> $GITHUB_ENV
+        echo "$TP_SDK_FULL_JAR_EXT" >> $GITHUB_ENV
         echo "TP_SDK_JAR_EXT=.jar" >> $GITHUB_ENV
     - name: Upload FULL jar to release
       uses: svenstaro/upload-release-action@v2
