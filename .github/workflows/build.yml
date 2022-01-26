@@ -54,15 +54,12 @@ jobs:
         asset_name: ${{ env.TP_SDK_JAR_NAME }}${{ env.TP_SDK_JAR_EXT }}
         tag: ${{ github.ref }}
         overwrite: true
-    - name: Create hash artifact
-      if: startsWith(github.ref, 'refs/tags/v')
-      uses: MCJack123/ghaction-generate-release-hashes@v1
-      with:
-        hash-type: md5
-        file-name: hashes.txt
+    - name: Create jar's hash file 
+      run: |
+        md5=($(md5sum build/libs/${{ env.TP_SDK_JAR_NAME }}-${{ env.TP_SDK_VERSION }}-${{ env.TP_SDK_VARIANT}}-${{ env.TP_SDK_FULL_JAR_EXT }}))
+        echo md5 >>  build/libs/jar-hash.txt
     - name: Upload hash artifact
-      if: startsWith(github.ref, 'refs/tags/v')
       uses: actions/upload-artifact@v2
       with:
         name: Asset Hashes
-        path: hashes.txt
+        path: build/libs/jar-hash.txt
