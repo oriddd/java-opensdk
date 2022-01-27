@@ -59,8 +59,8 @@ jobs:
     - name: Create jar's hash file 
       run: |
         jar_file=build/libs/${{ env.TP_SDK_JAR_NAME }}-${{ env.TP_SDK_VERSION }}-${{ env.TP_SDK_VARIANT}}-${{ env.TP_SDK_FULL_JAR_EXT }}
-        echo $jar_file
-        md5=($(md5sum $jar_file))
+        echo "$jar_file"
+        md5=($(md5sum "$jar_file"))
         echo md5 >>  build/libs/jar-hash.txt
     - name: Upload hash artifact
       uses: actions/upload-artifact@v2
