@@ -62,7 +62,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/v')
       run: |
         jar_file="build/libs/${{ env.TP_SDK_JAR_NAME }}-${{ env.TP_SDK_VERSION }}-${{ env.TP_SDK_VARIANT}}-${{ env.TP_SDK_FULL_JAR_EXT }}"
-        md5sum jar_file > build/libs/jar-hash.md
+        md5sum "$jar_file" > build/libs/jar-hash.md
     - name: Upload hash artifact
       if: startsWith(github.ref, 'refs/tags/v')
       uses: actions/upload-artifact@v2
