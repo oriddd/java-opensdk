@@ -42,7 +42,7 @@ jobs:
           echo "TP_SDK_VARIANT=SNAPSHOT" >> $GITHUB_ENV
         else
           export TP_SDK_VARIANT="RELEASE"
-          echo "TP_SDK_VARIANT=SNAPSHOT" >> $GITHUB_ENV
+          echo "TP_SDK_VARIANT=RELEASE" >> $GITHUB_ENV
         fi
         export TP_SDK_JAR_NAME="testproject-java-sdk"
         export TP_SDK_FULL_JAR_EXT="FULL.jar"
