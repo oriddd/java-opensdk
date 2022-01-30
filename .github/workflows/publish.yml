@@ -1,0 +1,52 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+
+name: Gradle Package
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  release:
+    types: [published]
+
+jobs:
+
+  job1:
+    uses: oriddd/java-opensdk/.github/workflows/build.yml@main
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Define uberJAR name
+      run: |
+        export TP_SDK_VARIANT="RELEASE"
+        echo "TP_SDK_VARIANT=RELEASE" >> $GITHUB_ENV
+        export TP_SDK_JAR_NAME="testproject-java-sdk"
+        export TP_SDK_UBER_JAR_EXT="UBER.jar"
+        echo "TP_SDK_JAR_NAME=testproject-java-sdk" >> $GITHUB_ENV
+        echo "TP_SDK_UBER_JAR_EXT=UBER.jar" >> $GITHUB_ENV
+          echo "TP_SDK_JAR_EXT=.jar" >> $GITHUB_ENV
+    - name: Upload uberJAR to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: build/libs/${{ env.TP_SDK_JAR_NAME }}-${{ env.TP_SDK_VERSION }}-${{ env.TP_SDK_VARIANT}}-${{ env.TP_SDK_UBER_JAR_EXT }}
+        asset_name: ${{ env.TP_SDK_JAR_NAME }}${{ env.TP_SDK_JAR_EXT }}
+        tag: ${{ github.ref }}
+        overwrite: true
+    - name: Create uberJAR hash file
+      run: |
+        md5sum build/libs/${{ env.TP_SDK_JAR_NAME }}-${{ env.TP_SDK_VERSION }}-${{ env.TP_SDK_VARIANT}}-${{ env.TP_SDK_UBER_JAR_EXT }} > build/libs/jar-hash.md
+    - name: Upload hash artifact
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: build/libs/jar-hash.md
+        asset_name: ${{ env.TP_SDK_JAR_NAME }}.md5
+        tag: ${{ github.ref }}
+        overwrite: true
