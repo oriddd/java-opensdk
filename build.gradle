@@ -144,7 +144,7 @@ jar {
     }
 }
 
-task fullJar (type: Jar) {
+task uberJar (type: Jar) {
     mustRunAfter(jar, javadocJar, sourcesJar)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
@@ -153,15 +153,15 @@ task fullJar (type: Jar) {
                 'Compile-Version': project.version
     }
 
-    archiveFileName = project.name + "-" + project.version + "-FULL.jar"
+    archiveFileName = project.name + "-" + project.version + "-UBER.jar"
     from configurations.compileClasspath.collect {
         it.isDirectory() ? it : zipTree(it)
     }
     with jar
 }
 
-// Add the fullJar task to the build lifecycle.
-processTestResources.dependsOn(fullJar)
+// Add the uberJar task to the build lifecycle.
+processTestResources.dependsOn(uberJar)
 
 publishing {
     publications {
