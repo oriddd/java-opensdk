@@ -8,17 +8,13 @@
 name: Gradle Package
 
 on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
   release:
-    types: [published]
+    types: [created]
 
 jobs:
 
   job1:
-    uses: oriddd/java-opensdk/.github/workflows/build.yml@main
+    uses: ./.github/workflows/build.yml
   job2:
     runs-on: ubuntu-latest
     steps:
