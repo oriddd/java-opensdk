@@ -40,5 +40,5 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/v')
       uses: actions/upload-artifact@v2
       with:
-        name: uberJAR.jar
+        name: ${{ env.TP_SDK_JAR_NAME }}
         path: build/libs/${{ env.TP_SDK_JAR_NAME }}
