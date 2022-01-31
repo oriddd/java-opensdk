@@ -22,9 +22,8 @@ jobs:
     - name: Download artifact
       uses: dawidd6/action-download-artifact@v2
       with:
-        workflow: build.yml
+        workflow: build_and_test/reusable_build_and_test_workflow_job
         name: uberJAR.jar
-        path: .
     - name: Upload uberJAR to release
       uses: svenstaro/upload-release-action@v2
       with:
