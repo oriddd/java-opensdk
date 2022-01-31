@@ -13,37 +13,33 @@ on:
 
 jobs:
 
-  job1:
+  build_and_test:
     uses: ./.github/workflows/build.yml
   job2:
-    needs: job1
+    needs: build_and_test
     runs-on: ubuntu-latest
     steps:
-    - name: Define uberJAR name
-      run: |
-        export TP_SDK_VARIANT="RELEASE"
-        echo "TP_SDK_VARIANT=RELEASE" >> $GITHUB_ENV
-        export TP_SDK_JAR_NAME="testproject-java-sdk"
-        export TP_SDK_UBER_JAR_EXT="UBER.jar"
-        echo "TP_SDK_JAR_NAME=testproject-java-sdk" >> $GITHUB_ENV
-        echo "TP_SDK_UBER_JAR_EXT=UBER.jar" >> $GITHUB_ENV
-          echo "TP_SDK_JAR_EXT=.jar" >> $GITHUB_ENV
+    - name: Download artifact
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: build.yml
+        name: uberJAR.jar
     - name: Upload uberJAR to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: build/libs/${{ env.TP_SDK_JAR_NAME }}-${{ env.TP_SDK_VERSION }}-${{ env.TP_SDK_VARIANT}}-${{ env.TP_SDK_UBER_JAR_EXT }}
+        file: '**/*uberJAR.jar'
         asset_name: ${{ env.TP_SDK_JAR_NAME }}${{ env.TP_SDK_JAR_EXT }}
         tag: ${{ github.ref }}
         overwrite: true
     - name: Create uberJAR hash file
       run: |
-        md5sum build/libs/${{ env.TP_SDK_JAR_NAME }}-${{ env.TP_SDK_VERSION }}-${{ env.TP_SDK_VARIANT}}-${{ env.TP_SDK_UBER_JAR_EXT }} > build/libs/jar-hash.md
+        md5sum **/*uberJAR.jar > jar-hash.md
     - name: Upload hash artifact
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: build/libs/jar-hash.md
+        file: '**/*jar-hash.md'
         asset_name: ${{ env.TP_SDK_JAR_NAME }}.md5
         tag: ${{ github.ref }}
         overwrite: true
