@@ -23,17 +23,21 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: uberJAR.jar
+    - name: Define uberJAR file name
+      run: |
+        export TP_SDK_JAR_NAME="testproject-java-sdk.jar"
+        echo "TP_SDK_JAR_NAME=testproject-java-sdk.jar" >> $GITHUB_ENV
     - name: Upload uberJAR to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./testproject-java-sdk.jar
-        asset_name: testproject-java-sdk.jar
+        file: ./"${TP_SDK_JAR_NAME}"
+        asset_name: ${{ env.TP_SDK_JAR_NAME }}
         tag: ${{ github.ref }}
         overwrite: true
     - name: Create uberJAR hash file
       run: |
-        md5sum uberJAR.jar > ./jar-hash.md
+        md5sum "${TP_SDK_JAR_NAME}" > ./jar-hash.md
     - name: Upload hash artifact
       uses: svenstaro/upload-release-action@v2
       with:
