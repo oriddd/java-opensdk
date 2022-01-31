@@ -29,9 +29,14 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build -x test -Pversion=$TP_SDK_VERSION $SDK_BUILD_ARGS
+    
+    - name: Rename uberJAR file name
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: |
+        cp build/libs/*UBER.jar build/libs/testproject-java-sdk.jar
     - name: Upload uberJAR workflow artifact
       if: startsWith(github.ref, 'refs/tags/v')
       uses: actions/upload-artifact@v2
       with:
         name: uberJAR.jar
-        path: build/libs/*UBER.jar
+        path: build/libs/testproject-java-sdk.jar
