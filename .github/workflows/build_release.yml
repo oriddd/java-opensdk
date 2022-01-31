@@ -27,14 +27,18 @@ jobs:
       run: |
         echo "TP_SDK_JAR_NAME=testproject-java-sdk" >> $GITHUB_ENV
         echo "TP_SDK_JAR_EXT=.jar" >> $GITHUB_ENV
-    - name: check storage
+    - name: Extract uberJAR file name
       run: |
         ls ./
+        fname=$(find ./ -iname "*UBER.jar")
+        echo "$fname"
+        echo "TP_SDK_UBER_JAR_NAME=${fname}" >> $GITHUB_ENV
+        
     - name: Upload uberJAR to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: /home/runner/work/java-opensdk/java-opensdk/uberJAR.jar
+        file: ${{ secrets.TP_SDK_UBER_JAR_NAME }}
         asset_name: ${{ env.TP_SDK_JAR_NAME }}${{ env.TP_SDK_JAR_EXT }}
         tag: ${{ github.ref }}
         overwrite: true
