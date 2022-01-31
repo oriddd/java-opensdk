@@ -32,7 +32,8 @@ jobs:
     - name: Print files name
       run: |
         ls
-        ls -al build/lib
+        ls -al build/
+        ls -al build/lib/
         ls -al build/lib/*UBER.jar
     - name: Upload uberJAR workflow artifact
       uses: actions/upload-artifact@v2
