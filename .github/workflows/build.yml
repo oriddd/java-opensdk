@@ -29,12 +29,6 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build -x test -Pversion=$TP_SDK_VERSION $SDK_BUILD_ARGS
-    - name: Print files name
-      run: |
-        ls
-        ls -al build/
-        ls -al build/libs/
-        ls -al build/libs/*UBER.jar
     - name: Upload uberJAR workflow artifact
       uses: actions/upload-artifact@v2
       with:
