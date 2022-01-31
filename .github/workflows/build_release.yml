@@ -22,7 +22,7 @@ jobs:
     - name: Download artifact
       uses: dawidd6/action-download-artifact@v2
       with:
-        workflow: ./.github/workflows/build.yml
+        workflow: G1
         name: uberJAR.jar
     - name: Upload uberJAR to release
       uses: svenstaro/upload-release-action@v2
