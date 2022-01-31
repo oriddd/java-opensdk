@@ -30,7 +30,6 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build -x test -Pversion=$TP_SDK_VERSION $SDK_BUILD_ARGS
     - name: Create workflow atrifact folder
-      if: startsWith(github.ref, 'refs/tags/v')
       run: |
         mkdir -p /workflow_artifacts
         cp build/lib/**/*UBER.jar /workflow_artifacts/uberJAR.jar
