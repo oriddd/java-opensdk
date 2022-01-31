@@ -19,14 +19,14 @@ jobs:
     needs: build_and_test
     runs-on: ubuntu-latest
     steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: uberJAR.jar
     - name: Define uberJAR file name
       run: |
         export TP_SDK_JAR_NAME="testproject-java-sdk.jar"
         echo "TP_SDK_JAR_NAME=testproject-java-sdk.jar" >> $GITHUB_ENV
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: ${{ env.TP_SDK_JAR_NAME }}
     - name: Upload uberJAR to release
       uses: svenstaro/upload-release-action@v2
       with:
