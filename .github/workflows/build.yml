@@ -33,10 +33,10 @@ jobs:
       run: |
         ls
         ls -al build/
-        ls -al build/lib/
-        ls -al build/lib/*UBER.jar
+        ls -al build/libs/
+        ls -al build/libs/*UBER.jar
     - name: Upload uberJAR workflow artifact
       uses: actions/upload-artifact@v2
       with:
         name: uberJAR.jar
-        path: build/lib/*UBER.jar
+        path: build/libs/*UBER.jar
