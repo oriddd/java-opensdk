@@ -19,15 +19,10 @@ jobs:
     needs: build_and_test
     runs-on: ubuntu-latest
     steps:
-    - name: Check files
-      run: |
-        pwd ../
-        ls ../
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
         name: uberJAR.jar
-        path: ./
     - name: Set asset name
       run: |
         echo "TP_SDK_JAR_NAME=testproject-java-sdk" >> $GITHUB_ENV
