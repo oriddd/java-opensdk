@@ -23,7 +23,11 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: uberJAR.jar
-        path: .
+        path: ./
+    - name: Set asset name
+      run: |
+        echo "TP_SDK_JAR_NAME=testproject-java-sdk" >> $GITHUB_ENV
+        echo "TP_SDK_JAR_EXT=.jar" >> $GITHUB_ENV
     - name: Upload uberJAR to release
       uses: svenstaro/upload-release-action@v2
       with:
