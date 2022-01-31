@@ -40,4 +40,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: uberJAR.jar
-        path: build/libs/{{ env.TP_SDK_JAR_NAME }}
+        path: build/libs/${{ env.TP_SDK_JAR_NAME }}
