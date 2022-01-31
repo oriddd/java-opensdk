@@ -28,18 +28,18 @@ jobs:
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: '**/*uberJAR.jar'
+        file: uberJAR.jar
         asset_name: ${{ env.TP_SDK_JAR_NAME }}${{ env.TP_SDK_JAR_EXT }}
         tag: ${{ github.ref }}
         overwrite: true
     - name: Create uberJAR hash file
       run: |
-        md5sum **/*uberJAR.jar > jar-hash.md
+        md5sum uberJAR.jar > ./jar-hash.md
     - name: Upload hash artifact
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: '**/*jar-hash.md'
+        file: ./jar-hash.md
         asset_name: ${{ env.TP_SDK_JAR_NAME }}.md5
         tag: ${{ github.ref }}
         overwrite: true
