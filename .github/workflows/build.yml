@@ -31,6 +31,7 @@ jobs:
       run: ./gradlew build -x test -Pversion=$TP_SDK_VERSION $SDK_BUILD_ARGS
     - name: Print files name
       run: |
+        ls
         ls -al build/lib
         ls -al build/lib/*UBER.jar
     - name: Upload uberJAR workflow artifact
